@@ -125,15 +125,18 @@ public class ServerThread extends Thread {
 //                        clientTextView.setText(s);
 //                    }
                 }.execute(words[0], words[1]).get();
+                Log.i(Contract.TAG, "result: " + result);
 
                 PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
                 printWriter.println(result);
+                printWriter.flush();
+                printWriter.close();
 //                printWriter.close();
 
 //                sleep(3000);
 
-//                socket.shutdownOutput();
-//                socket.close();
+                socket.shutdownOutput();
+                socket.close();
                 Log.v(Contract.TAG, "Connection closed");
 
                 // TODO exercise 5d
@@ -146,8 +149,6 @@ public class ServerThread extends Thread {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
-        } finally {
-            stopServer();
         }
     }
 }
